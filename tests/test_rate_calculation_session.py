@@ -12,6 +12,18 @@ class TestRateCalculationSession(unittest.TestCase):
         rateCalculationSession = RateCalculationSession.RateCalculationSession()
         csvfile = 'data.csv'
         rows = CsvParser.CsvParser.get_rows(csvfile)
-        rateCalculationSession.get_rate_from_offers(rows)
+        lowest_rate = rateCalculationSession.get_lowest_rate(rows)
 
-        self.assertEqual(len(rateCalculationSession.get_offers()), 6)
+        self.assertEqual(lowest_rate, 0.069)
+
+    def test_is_amount_available(self):
+
+        rateCalculationSession = RateCalculationSession.RateCalculationSession()
+        csvfile = 'data.csv'
+        rows = CsvParser.CsvParser.get_rows(csvfile)
+        availability = rateCalculationSession.get_availability(rows, 9090)
+        self.assertEqual(False, availability)
+
+        availability = rateCalculationSession.get_availability(rows, 2330)
+        self.assertEqual(True, availability)
+
