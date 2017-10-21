@@ -1,16 +1,12 @@
 __author__ = 'RobertaBtt'
 
-
+from rate_calculation import CsvParser
 import unittest
 
-from rate_calculation import CsvParser
 
-class TestCsvParrser(unittest.TestCase):
+class TestCsvParser(unittest.TestCase):
 
     def test_csv_parser_rows(self):
-
         csvfile = 'data.csv'
-
-        rows = CsvParser.CsvParser.get_n_records_from_csv(csvfile)
-
-        self.assertEqual(rows, 6)
+        rows = CsvParser.CsvParser.get_rows(csvfile)
+        self.assertEqual(len(rows), 7)
