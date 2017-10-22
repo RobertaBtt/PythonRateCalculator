@@ -26,6 +26,10 @@ class RateCalculationSession():
         lowest_rate = offers[0]
         return float(lowest_rate[0])
 
+    def get_offers_from_request(self, request):
+        if self.get_availability()lowest_rate = offers[0]
+        return float(lowest_rate[0])
+
     def get_availability(self, offers, requested_offer):
         totalAvailable = sum([float(pair[1]) for pair in offers])
         if requested_offer <= totalAvailable:
