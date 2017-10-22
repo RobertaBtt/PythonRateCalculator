@@ -19,10 +19,23 @@ class RateCalculation():
             RateCalculation.instance = RateCalculation.__RateCalculation()
 
     def __getattr__(self, name):
-        return  getattr(self.instance, name)
+        return getattr(self.instance, name)
 
     def __init__(self):
         self.offers = []
 
     def get_rates(self, offers, loan_amount):
-        return 0
+        amount_reached = 0.0
+
+        rates = []
+        for index, offer in enumerate(offers):
+
+            amount_reached += float(offer[1])
+            if amount_reached < loan_amount:
+                rates.append((offer[0], offer[1]))
+            elif amount_reached == loan_amount:
+                rates.append((offer[0], offer[1]))
+                return rates
+            elif amount_reached > loan_amount:
+                rates.append((offer[0], amount_reached - loan_amount))
+                return rates
