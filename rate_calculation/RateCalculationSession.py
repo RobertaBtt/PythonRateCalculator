@@ -28,10 +28,11 @@ class RateCalculationSession():
 
     def get_rates(self, csv_file_path, loan_amount):
 
-        offers = self.csv_parser.get_rows(csv_file_path)
+        offers = self.csv_parser.get_rows_sorted_by_rate(csv_file_path)
 
         if self.is_loan_possible(offers, loan_amount):
-            return self.rate_calculation.get_rates(offers, loan_amount)
+            result =  self.rate_calculation.get_rates(offers, loan_amount)
+            return result
             # return {'Rate': 7.0,
             #         'Monthly repayment': 30.78,
             #         'Total repayment': 1108.10}
@@ -67,5 +68,5 @@ if __name__ == '__main__':
     rateCalculationSession = RateCalculationSession()
     # print rateCalculationSession.get_rates(csv_file_path, loan_amount)
 
-    result = rateCalculationSession.get_rates('data.csv', 2330)
+    result = rateCalculationSession.get_rates('data.csv', 1023)
     print result
