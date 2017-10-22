@@ -3,12 +3,15 @@ __author__ = 'RobertaBtt'
 
 import sys
 import CsvParser
-
+import RateCalculation
 
 class RateCalculationSession():
+
     class __RateCalculationSession:
         def __init__(self):
-            self.offers = []
+            self.rate_calculation = RateCalculation.RateCalculation()
+            self.csv_parser = CsvParser.CsvParser()
+
         def __str__(self):
             return repr(self)
     instance = None
@@ -20,34 +23,49 @@ class RateCalculationSession():
         return  getattr(self.instance, name)
 
     def __init__(self):
-        self.offers = []
+        self.rate_calculation = RateCalculation.RateCalculation()
+        self.csv_parser = CsvParser.CsvParser()
 
-    def get_lowest_rate(self, offers):
-        lowest_rate = offers[0]
-        return float(lowest_rate[0])
+    def get_rates(self, csv_file_path, loan_amount):
 
-    def get_offers_from_request(self, request):
-        if self.get_availability()lowest_rate = offers[0]
-        return float(lowest_rate[0])
+        offers = self.csv_parser.get_rows(csv_file_path)
 
-    def get_availability(self, offers, requested_offer):
-        totalAvailable = sum([float(pair[1]) for pair in offers])
-        if requested_offer <= totalAvailable:
-            return True
+        if self.is_loan_possible(offers, loan_amount):
+            return self.rate_calculation.get_rates(offers, loan_amount)
+            # return {'Rate': 7.0,
+            #         'Monthly repayment': 30.78,
+            #         'Total repayment': 1108.10}
         else:
-            return False
+            return "Amount not available"
+
+
+
+
+    # def get_lowest_rate(self, offers):
+    #     lowest_rate = offers[0]
+    #     return float(lowest_rate[0])
+    #
+    # def get_offers_from_request(self, request):
+    #     if self.get_availability()lowest_rate = offers[0]
+    #     return float(lowest_rate[0])
+
+    def is_loan_possible(self, offers, loan_amount):
+
+        total_available = sum([float(pair[1]) for pair in offers])
+        return loan_amount <= total_available
 
 
 
 #====================================
 if __name__ == '__main__':
 
-    csvfile = sys.argv[1]
-    requestedAmount = sys.argv[2]
+    # csv_file_path = sys.argv[1]
+    # loan_amount = sys.argv[2]
+
+    # print "Requested amount: £", loan_amount
+
     rateCalculationSession = RateCalculationSession()
+    # print rateCalculationSession.get_rates(csv_file_path, loan_amount)
 
-    offers = CsvParser.CsvParser.get_rows(csvfile)
-    lowest_rate = rateCalculationSession.get_lowest_rate(offers)
-
-    print "Requested amount: £", requestedAmount
-    print "Rate:", lowest_rate
+    result = rateCalculationSession.get_rates('data.csv', 2330)
+    print result

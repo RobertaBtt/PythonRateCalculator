@@ -2,12 +2,10 @@ __author__ = 'RobertaBtt'
 
 import csv
 
-class CsvParser():
+
+class CsvParser:
 
     class __CsvParser:
-
-        def __init__(self):
-            self.game_sessions = {}
 
         def __str__(self):
             return repr(self)
@@ -40,7 +38,7 @@ class CsvParser():
         :return: rows Rate and Available sorted by Rate
         """
         try:
-            return sorted(CsvParser.__get_rows(csv_file_path),  key=lambda row: int(row[0]))
+            return sorted(CsvParser.__get_rows(csv_file_path),  key=lambda row: float(row[0]))
 
         except Exception as e:
             raise e
