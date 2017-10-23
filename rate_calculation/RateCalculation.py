@@ -45,11 +45,22 @@ class RateCalculation():
         return rates
 
     def get_repayment_avg_tax(self, rates_list):
+        """
+        :param rates_list: a tuple containing all the taxes
+        :return: the avg of the taxes
+        """
 
         avg_rates = sum([v[0] for v in rates_list]) / float(len(rates_list))
         return round(avg_rates, 2)
 
     def get_annual_repayment(self, num_units_per_year, loan_amount, tax_rate, total_of_units):
+        """
+        :param num_units_per_year: how many payment in a year
+        :param loan_amount:  what is the amout of the requested load
+        :param tax_rate: the tax rate applied
+        :param total_of_units: total of number of payments
+        :return:
+        """
 
         tax_rate_per_units = tax_rate/num_units_per_year
 
