@@ -27,16 +27,27 @@ class RateCalculationSession():
         self.csv_parser = CsvParser.CsvParser()
 
     def get_rates(self, csv_file_path, loan_amount):
+        """
+
+        :param csv_file_path: the path of the data file
+        :param loan_amount: request amount
+        :return:
+        """
 
         offers = self.csv_parser.get_rows_sorted_by_rate(csv_file_path)
 
         if self.is_loan_possible(offers, loan_amount):
-            result =  self.rate_calculation.get_rates(offers, loan_amount)
+            result = self.rate_calculation.get_rates(offers, loan_amount)
             return result
         else:
             return "Amount not available"
 
     def is_loan_possible(self, offers, loan_amount):
+        """
+        :param offers: list of offers from the pool of lenders
+        :param loan_amount: request amount
+        :return:
+        """
 
         total_available = sum([float(pair[1]) for pair in offers])
         return loan_amount <= total_available
