@@ -33,22 +33,9 @@ class RateCalculationSession():
         if self.is_loan_possible(offers, loan_amount):
             result =  self.rate_calculation.get_rates(offers, loan_amount)
             return result
-            # return {'Rate': 7.0,
-            #         'Monthly repayment': 30.78,
-            #         'Total repayment': 1108.10}
         else:
             return "Amount not available"
 
-
-
-
-    # def get_lowest_rate(self, offers):
-    #     lowest_rate = offers[0]
-    #     return float(lowest_rate[0])
-    #
-    # def get_offers_from_request(self, request):
-    #     if self.get_availability()lowest_rate = offers[0]
-    #     return float(lowest_rate[0])
 
     def is_loan_possible(self, offers, loan_amount):
 
