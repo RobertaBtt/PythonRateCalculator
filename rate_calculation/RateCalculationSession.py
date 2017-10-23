@@ -36,11 +36,12 @@ class RateCalculationSession():
         else:
             return "Amount not available"
 
-
     def is_loan_possible(self, offers, loan_amount):
 
         total_available = sum([float(pair[1]) for pair in offers])
         return loan_amount <= total_available
+
+
 
 
 
