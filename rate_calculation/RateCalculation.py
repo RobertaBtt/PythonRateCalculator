@@ -32,10 +32,13 @@ class RateCalculation():
 
             amount_reached += float(offer[1])
             if amount_reached < loan_amount:
-                rates.append((offer[0], offer[1]))
+                rates.append((float(offer[0]), float(offer[1])))
+
             elif amount_reached == loan_amount:
-                rates.append((offer[0], offer[1]))
+                rates.append((float(offer[0]), float(offer[1])))
                 return rates
             elif amount_reached > loan_amount:
-                rates.append((offer[0], amount_reached - loan_amount))
+                rates.append((float(offer[0]), float(offer[1]) - (amount_reached - loan_amount)))
                 return rates
+
+        return rates
