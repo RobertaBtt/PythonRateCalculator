@@ -47,17 +47,30 @@ class TestRateCalculation(unittest.TestCase):
         rates = self.rate_calculation.get_rates(self.offers, loan_amount)
         self.assertEqual(0.07, self.rate_calculation.get_repayment_avg_tax(rates))
 
-    def test_get_annual_repayment(self):
+    def test_get_annual_repayment_1(self):
         loan_amount = 1000
         rates = self.rate_calculation.get_rates(self.offers, loan_amount)
         avg_tax_rate = self.rate_calculation.get_repayment_avg_tax(rates)
-        annual_repayment = self.rate_calculation.get_annual_repayment(12, loan_amount, avg_tax_rate, 36)
-        self.assertEqual(3.88, round(annual_repayment))
+        annual_repayment = self.rate_calculation.get_repayment(12, loan_amount, avg_tax_rate, 36)
+        self.assertEqual(30.88, round(annual_repayment, 2))
 
-    def test_get_annual_repayment(self):
+    def test_get_annual_repayment_2(self):
         loan_amount = 15650
         rates = self.rate_calculation.get_rates(self.offers, loan_amount)
         avg_tax_rate = self.rate_calculation.get_repayment_avg_tax(rates)
-        annual_repayment = self.rate_calculation.get_annual_repayment(12, loan_amount, avg_tax_rate, 36)
+        annual_repayment = self.rate_calculation.get_repayment(12, loan_amount, avg_tax_rate, 36)
         self.assertEqual(490, round(annual_repayment))
 
+    def test_get_annual_repayment_3(self):
+        loan_amount = 0
+        rates = self.rate_calculation.get_rates(self.offers, loan_amount)
+        avg_tax_rate = self.rate_calculation.get_repayment_avg_tax(rates)
+        annual_repayment = self.rate_calculation.get_repayment(12, loan_amount, avg_tax_rate, 36)
+        self.assertEqual(0, round(annual_repayment))
+
+    def test_get_annual_repayment_4(self):
+        loan_amount = -1
+        rates = self.rate_calculation.get_rates(self.offers, loan_amount)
+        avg_tax_rate = self.rate_calculation.get_repayment_avg_tax(rates)
+        annual_repayment = self.rate_calculation.get_repayment(12, loan_amount, avg_tax_rate, 36)
+        self.assertEqual(0, round(annual_repayment))

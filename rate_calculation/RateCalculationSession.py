@@ -26,21 +26,25 @@ class RateCalculationSession():
         self.rate_calculation = RateCalculation.RateCalculation()
         self.csv_parser = CsvParser.CsvParser()
 
-    def get_rates(self, csv_file_path, loan_amount):
+    def get_rates(self, csv_file_path, loan_amount, total_of_units):
         """
 
         :param csv_file_path: the path of the data file
         :param loan_amount: request amount
-        :return:
+        :return: dictionary: repayment per unit, and the tax applied
         """
 
         offers = self.csv_parser.get_rows_sorted_by_rate(csv_file_path)
 
         if self.is_loan_possible(offers, loan_amount):
-            result = self.rate_calculation.get_rates(offers, loan_amount)
-            return result
+            rates = self.rate_calculation.get_rates(offers, loan_amount)
+            avg_rate = self.rate_calculation.get_repayment_avg_tax(rates)
+            num_units_per_year = 12
+            repayment_per_unit = self.rate_calculation.get_repayment(num_units_per_year, loan_amount, avg_rate, total_of_units)
+
+            return {'repayment' : repayment_per_unit, 'rate': avg_rate}
         else:
-            return "Amount not available"
+            return {'not_available': "Amount not available"}
 
     def is_loan_possible(self, offers, loan_amount):
         """
@@ -59,13 +63,29 @@ class RateCalculationSession():
 #====================================
 if __name__ == '__main__':
 
-    # csv_file_path = sys.argv[1]
-    # loan_amount = sys.argv[2]
+    try:
+        csv_file_path = sys.argv[1]
+        loan_amount = float(sys.argv[2])
+        # csv_file_path = 'data.csv'
+        # loan_amount = 10000
 
-    # print "Requested amount: £", loan_amount
+        total_of_units = 36
+        rateCalculationSession = RateCalculationSession()
 
-    rateCalculationSession = RateCalculationSession()
-    # print rateCalculationSession.get_rates(csv_file_path, loan_amount)
+        rates = rateCalculationSession.get_rates(csv_file_path, loan_amount, total_of_units)
 
-    result = rateCalculationSession.get_rates('data.csv', 1023)
-    print result
+        print "Requested amount: £", loan_amount
+        if rates.has_key('not_available'):
+            print rates['not_available']
+        else:
+            if rates.has_key('rate'): print "Rate:", round(rates['rate']*100, 1), "%"
+            if rates.has_key('repayment'):
+                print "Monthly repayment: £", round(rates['repayment'], 2), "%"
+                print "Total repayment: £", round(rates['repayment']*total_of_units, 2)
+    except Exception as e:
+        print "Please check parameters/data"
+        print "Message:", e.message
+
+
+
+
