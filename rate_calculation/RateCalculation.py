@@ -3,6 +3,7 @@ __author__ = 'RobertaBtt'
 
 import sys
 import CsvParser
+import math
 
 class RateCalculation():
     class __RateCalculation:
@@ -42,3 +43,15 @@ class RateCalculation():
                 return rates
 
         return rates
+
+    def get_repayment_avg_tax(self, rates_list):
+
+        avg_rates = sum([v[0] for v in rates_list]) / float(len(rates_list))
+        return round(avg_rates, 2)
+
+    def get_annual_repayment(self, num_units_per_year, loan_amount, tax_rate, total_of_units):
+
+        tax_rate_per_units = tax_rate/num_units_per_year
+
+        payment = ( tax_rate_per_units * loan_amount) / (1-(1+tax_rate_per_units)**(-total_of_units))
+        return payment
