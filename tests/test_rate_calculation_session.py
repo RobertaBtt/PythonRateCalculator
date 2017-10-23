@@ -22,10 +22,12 @@ class TestRateCalculationSession(unittest.TestCase):
 
     def test_get_rates_not_available(self):
         loan_amount = 10000
-        self.assertEqual("Amount not available", self.rate_calculation_session.get_rates(self.csv_file_path, loan_amount))
+        total_of_units = 36
+        self.assertEqual("Amount not available", self.rate_calculation_session.get_rates(self.csv_file_path, loan_amount, total_of_units)['not_available'])
 
     #get rates tested in the corresponding class test of rate calculation session
     def test_get_rates_available(self):
         loan_amount = 1000
-        rates = self.rate_calculation_session.get_rates(self.csv_file_path, loan_amount)
+        total_of_units = 36
+        rates = self.rate_calculation_session.get_rates(self.csv_file_path, loan_amount, total_of_units)
         self.assertEqual(len(rates), 2)
